@@ -1,13 +1,22 @@
+import { Input } from '@headlessui/react'
 import './App.css'
 import Button from './components/Button'
 import ProductCard from './components/ProductCard'
-import { productList } from './data'
+import {  formInputsList, productList } from './data'
 import Modal from './Ui/Modal'
 import { useState } from 'react'
 
 function App() {
- const renderProductList = productList.map( product => <ProductCard key={product.id} product={product}/>)
-  // state
+ const renderProductList = productList.map( product => <ProductCard key={product.id} product={product}/>);
+ const renderFormInputs = formInputsList.map(input =>
+  <div className='flex flex-col '>
+  <label htmlFor={input.id}>{input.label}</label>
+  <Input type='text' id={input.id} name={input.name} className="mb-[1px] text-sm
+   font-md text-gray-700"/>
+ </div>
+  );
+ 
+ // state
 
  const [isOpen, setIsOpen] = useState(false);
 
@@ -27,10 +36,15 @@ function App() {
     
     </div>
     <Modal isOpen={isOpen} closeModal={close} title={"Add New Item"} >
-      <div className="flex itmes-center space-x-3">
+      <form className='space-y-3'>
+        {renderFormInputs}
+      
+      
+      <div className="flex itmes-center space-x-3 ">
       <Button className='bg-indigo-700 hover:bg-indigo-800 w-full'>Submit</Button>
-      <Button className='bg-gray-500 hover:bg-gray-400 w-full' onClick={closeModal}> Cancel</Button>
+      <Button className='bg-gray-500 hover:bg-gray-500 w-full' onClick={closeModal}> Cancel</Button>
       </div>
+      </form>
     </Modal>
 
     </main>
